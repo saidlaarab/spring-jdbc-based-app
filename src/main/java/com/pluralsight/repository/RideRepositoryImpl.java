@@ -1,10 +1,12 @@
 package com.pluralsight.repository;
 
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.pluralsight.model.Ride;
@@ -16,11 +18,18 @@ public class RideRepositoryImpl implements RideRepository {
 	
 	@Override
 	public List<Ride> getRides() {
-		Ride ride = new Ride();
-		ride.setName("Corner Canyon");
-		ride.setDuration(120);
-		List <Ride> rides = new ArrayList<>();
-		rides.add(ride);
+		List<Ride> rides = jdbcTemplate.query("SELECT * FROM ride", new RowMapper<Ride>(){
+			@Override
+			public Ride mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Ride ride = new Ride();
+				ride.setId(rs.getInt("id"));
+				ride.setName(rs.getString("name"));
+				ride.setDuration(rs.getInt("duration"));
+				
+				return ride;
+			}
+		});
+		
 		return rides;
 	}
 

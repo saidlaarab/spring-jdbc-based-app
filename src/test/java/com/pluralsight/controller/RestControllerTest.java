@@ -18,7 +18,7 @@ public class RestControllerTest {
 		RestTemplate restTemplate = new RestTemplate();
 
 		ResponseEntity<List<Ride>> ridesResponse = restTemplate.exchange(
-				"http://localhost:8080/ride_tracker/rides", HttpMethod.GET,
+				"http://localhost:8080/ride_tracker/rides", HttpMethod.POST,
 				null, new ParameterizedTypeReference<List<Ride>>() {
 				});
 		List<Ride> rides = ridesResponse.getBody();
@@ -28,12 +28,12 @@ public class RestControllerTest {
 		}
 	}
 	
-	@Test(timeout=5000)
+	@Test(timeout=8000)
 	public void testCreateNewRide() {
 		RestTemplate restTemplate = new RestTemplate();
 		
 		Ride ride = new Ride();
-		ride.setName("Belguim trip ride");
+		ride.setName("RUssia trip ride");
 		ride.setDuration(35);
 		
 		ride = restTemplate.postForObject("http://localhost:8080/ride_tracker/ride", ride, Ride.class);

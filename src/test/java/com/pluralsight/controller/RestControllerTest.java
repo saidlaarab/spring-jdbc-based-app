@@ -36,6 +36,8 @@ public class RestControllerTest {
 		ride.setName("Belguim trip ride");
 		ride.setDuration(35);
 		
-		restTemplate.put("http://localhost:8080/ride_tracker/ride", ride);
+		ride = restTemplate.postForObject("http://localhost:8080/ride_tracker/ride", ride, Ride.class);
+		
+		System.out.println("Saved ride : " + ride);
 	}
 }

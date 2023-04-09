@@ -68,7 +68,7 @@ public class RestControllerTest {
 	
 	@Test(timeout=9000)
 	public void testDelete() {
-		restTemplate.delete("http://localhost:8082/ride_tracker/ride/20");
+		restTemplate.delete("http://localhost:8082/ride_tracker/ride/25");
 		
 	}
 }

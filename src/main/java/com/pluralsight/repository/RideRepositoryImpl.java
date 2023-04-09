@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -74,7 +77,12 @@ public class RideRepositoryImpl implements RideRepository {
 	
 	@Override
 	public Object deleteById(Integer id) {
-		jdbcTemplate.update("DELETE FROM ride WHERE id= ?", id);
+		//jdbcTemplate.update("DELETE FROM ride WHERE id= ?", id);
+		NamedParameterJdbcTemplate npJdbcTemplate = new NamedParameterJdbcTemplate(this.jdbcTemplate);
+		Map<String, Object> params = new HashMap<>();
+		params.put("id", id);
+		npJdbcTemplate.update("DELETE FROM ride WHERE id =:id", params);
+		
 		return null;
 	}
 	

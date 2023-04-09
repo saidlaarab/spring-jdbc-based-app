@@ -12,13 +12,15 @@ import com.pluralsight.model.Ride;
 import org.junit.Test;
 
 public class RestControllerTest {
-
+	
+	private final RestTemplate restTemplate = new RestTemplate();
+	
 	@Test(timeout=10_000)
 	public void testGetRides() {
 		RestTemplate restTemplate = new RestTemplate();
 
 		ResponseEntity<List<Ride>> ridesResponse = restTemplate.exchange(
-				"http://localhost:8080/ride_tracker/rides", HttpMethod.POST,
+				"http://localhost:8082/ride_tracker/rides", HttpMethod.POST,
 				null, new ParameterizedTypeReference<List<Ride>>() {
 				});
 		List<Ride> rides = ridesResponse.getBody();
@@ -36,8 +38,31 @@ public class RestControllerTest {
 		ride.setName("RUssia trip ride");
 		ride.setDuration(35);
 		
-		ride = restTemplate.postForObject("http://localhost:8080/ride_tracker/ride", ride, Ride.class);
+		ride = restTemplate.postForObject("http://localhost:8082/ride_tracker/ride", ride, Ride.class);
 		
 		System.out.println("Saved ride : " + ride);
+	}
+	
+	@Test(timeout=9000)
+	public void testGetRideById() {
+		Ride ride = restTemplate.getForObject("http://localhost:8082/ride_tracker/ride/1", Ride.class);
+		System.out.println("Fetched ride : " + ride);
+	}
+	
+	@Test(timeout=9000)
+	public void testUpdateRide() {
+		Ride ride = restTemplate.getForObject("http://localhost:8082/ride_tracker/ride/1", Ride.class);
+		
+		ride.setDuration(ride.getDuration()+10);
+		
+		restTemplate.put("http://localhost:8082/ride_tracker/ride", ride);
+		
+		System.out.println("updated ride : " + ride);
+	}
+	
+	@Test(timeout=9000)
+	public void testUpdateBatch() {
+		restTemplate.getForObject("http://localhost:8082/ride_tracker/update/batch", Object.class);
+		
 	}
 }

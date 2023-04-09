@@ -9,5 +9,11 @@ public interface RideRepository {
 	List<Ride> getRides();
 	
 	Ride createNewRide(Ride newRide);
+	
+	Ride getRide(Integer id);
+
+	Ride updateRide(Ride updatedRide);
+
+	Object updateAll(List<Object[]> batchArgs);
 
 }

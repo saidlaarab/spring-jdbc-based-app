@@ -42,4 +42,9 @@ public class RideServiceImpl implements RideService {
 		final List<Object[]> batchArgs = rides.stream().map(ride -> new Object[]{LocalDateTime.now() , ride.getId()}).collect(Collectors.toList());
 		return rideRepository.updateAll(batchArgs);
 	}
+	
+	@Override
+	public Object deleteRide(Integer id) {
+		return rideRepository.deleteById(id);
+	}
 }

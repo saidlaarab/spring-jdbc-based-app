@@ -16,4 +16,6 @@ public interface RideRepository {
 
 	Object updateAll(List<Object[]> batchArgs);
 
+	Object deleteById(Integer id);
+
 }
